@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class Tela_1Activity extends AppCompatActivity {
 
@@ -29,11 +30,28 @@ public class Tela_1Activity extends AppCompatActivity {
                 intent.putExtra(KEY_INTENT_TELA1, texto);
 
                 // Abrir uma tela sem esperar uma resposta
-                startActivity(intent);
+                startActivityForResult(intent, 1000);
 
                 // Abrir uma tela esperando uma resposta
 //                startActivityForResult(/*  Conteudo que tem aqui !!!!!!!!!!!!!!!!!*/);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // check that it is the SecondActivity with an OK result
+        if (requestCode == 1000) {
+            if (resultCode == 1100) { // Activity.RESULT_OK
+
+                // get String data from Intent
+                String returnString = data.getStringExtra("result");
+
+                TextView tvMessage = findViewById(R.id.tv_recibida);
+                tvMessage.setText(returnString);
+            }
+        }
     }
 }
